@@ -3,244 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yash's Birthday Gift Pot! 🎂</title>
+    <title>A Special Surprise from Yash! 🎂</title>
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
-            --primary-accent: #f1c40f; /* Gold */
-            --ribbon-color: #e74c3c; /* Red */
-            --text-main: #ffffff;
-            --text-muted: #bdc3c7;
-            --confetti-1: #e74c3c;
-            --confetti-2: #2ecc71;
-            --confetti-3: #3498db;
+            --gold: #f1c40f;
+            --red: #e74c3c;
+            --dark-bg: #0a0a0a;
         }
 
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: radial-gradient(circle at center, #1a1a1a, #000000); /* Dark Gradient */
-            color: var(--text-main);
+            background-color: var(--dark-bg);
+            color: white;
             height: 100vh;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            position: relative;
         }
 
-        /* --- BALLOON ANIMATION --- */
-        .bg-animation {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1;
-        }
-        
-        .balloon {
-            position: absolute;
-            width: 30px; height: 35px;
-            background: rgba(241, 196, 15, 0.4); /* Gold */
-            border-radius: 50%;
-            animation: float 8s infinite linear;
-        }
-        .balloon:nth-child(1) { left: 15%; animation-delay: 0s; }
-        .balloon:nth-child(2) { left: 45%; animation-delay: 2s; background: rgba(231, 76, 60, 0.4); /* Red */ }
-        .balloon:nth-child(3) { left: 80%; animation-delay: 4s; }
-
-        @keyframes float {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            30% { opacity: 0.9; }
-            100% { transform: translateY(-20vh) rotate(15deg); opacity: 0; }
-        }
-
-        /* --- CONFETTI POP ANIMATION --- */
-        .confetti-pop {
+        /* --- INTRO OVERLAY --- */
+        #intro-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 5;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .confetti-pop.active { opacity: 1; }
-        
-        .confetti {
-            position: absolute;
-            width: 10px; height: 10px;
-            background: var(--confetti-1);
-            animation: pop 1.5s infinite linear;
-        }
-        /* (Lots of confetti elements would be here, simulated for simplicity) */
-
-        @keyframes pop {
-            0% { transform: translateY(100vh); }
-            100% { transform: translateY(-10vh); }
-        }
-
-        /* --- BIRTHDAY CARD --- */
-        .profile-card {
-            background: rgba(30, 30, 30, 0.85); 
-            backdrop-filter: blur(15px); 
-            padding: 2.5rem;
-            border-radius: 40px;
-            border: 2px solid rgba(241, 196, 15, 0.5); /* Gold border */
-            width: 90%;
-            max-width: 380px;
-            text-align: center;
-            z-index: 10; 
-            box-shadow: 0 25px 60px rgba(0,0,0,0.9);
-            transform: translateY(20px);
-            opacity: 0;
-            animation: slideUp 0.8s ease forwards;
-        }
-
-        @keyframes slideUp {
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* --- GIFT BOX DESIGN (Now more celebratory) --- */
-        .gift-box-container {
-            width: 100px; height: 100px;
-            background: var(--primary-accent); 
-            border-radius: 20px;
-            margin: 0 auto 1.5rem;
-            position: relative;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 30px rgba(241, 196, 15, 0.6);
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .gift-box-container:hover { transform: scale(1.1) rotate(-5deg); }
-
-        .gift-box-container::before {
-            content: ''; position: absolute; width: 14px; height: 100%;
-            background: var(--ribbon-color); left: 50%; transform: translateX(-50%);
-        }
-        .gift-box-container::after {
-            content: ''; position: absolute; width: 100%; height: 14px;
-            background: var(--ribbon-color); top: 50%; transform: translateY(-50%);
-        }
-        .gift-box-initials { font-size: 2.5rem; font-weight: 900; color: #000; z-index: 2; }
-
-        h1 { font-size: 2.2rem; margin-bottom: 0.3rem; letter-spacing: 1px; }
-        .id-badge { color: var(--text-muted); font-size: 0.7rem; margin-bottom: 1rem; display: block; font-weight: bold; }
-        
-        .contact-box { 
-            margin-bottom: 2rem; background: rgba(255,255,255,0.03); 
-            padding: 1.2rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        /* --- GOLDEN GOAL BAR --- */
-        .goal-bar-container {
-            width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        .goal-bar-fill {
-            height: 100%;
-            width: 40%; /* CHANGE THIS % to show your goal progress */
-            background: var(--primary-accent);
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
-            transition: width 0.5s;
-        }
-        .goal-text { font-size: 0.75rem; color: var(--primary-accent); display: block; margin-top: 5px; }
-
-        /* --- RAZORPAY BUTTON STYLING (The "Send Love" Button) --- */
-        form {
+            background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+            z-index: 100;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            width: 100%;
-        }
-        .razorpay-payment-button {
-            background-color: var(--ribbon-color) !important; /* Red for Birthday Love */
-            color: #fff !important;
-            border: none !important;
-            padding: 18px 24px !important;
-            border-radius: 15px !important;
-            font-size: 1.2rem !important;
-            font-weight: 900 !important;
-            width: 100% !important;
-            cursor: pointer !important;
-            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4) !important;
-            transition: all 0.3s ease !important;
-            text-transform: uppercase;
-        }
-        .razorpay-payment-button:hover {
-            background-color: #fff !important;
-            color: #000 !important;
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(231, 76, 60, 0.6) !important;
+            align-items: center;
+            transition: opacity 1s ease, visibility 1s;
         }
 
-        .upi-text {
-            font-size: 0.7rem; 
-            color: var(--text-muted); 
-            margin-top: 15px;
-            letter-spacing: 0.5px;
+        .floating-gift {
+            font-size: 80px;
+            animation: pulse 2s infinite ease-in-out;
+            cursor: pointer;
+            filter: drop-shadow(0 0 20px var(--gold));
         }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .tap-text {
+            margin-top: 20px;
+            color: var(--gold);
+            letter-spacing: 3px;
+            font-weight: bold;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        /* --- MAIN CONTENT (Hidden at start) --- */
+        .main-container {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1s ease;
+            text-align: center;
+            z-index: 10;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .profile-card {
+            background: rgba(20, 20, 20, 0.95);
+            padding: 30px;
+            border-radius: 40px;
+            border: 1px solid var(--gold);
+            box-shadow: 0 0 50px rgba(0,0,0,1);
+        }
+
+        /* --- BALLOONS --- */
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 40px; height: 50px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        /* --- RAZORPAY BUTTON --- */
+        .payment-box { margin-top: 25px; }
+        .razorpay-payment-button {
+            background: var(--red) !important;
+            color: white !important;
+            border-radius: 50px !important;
+            font-weight: 800 !important;
+            padding: 15px !important;
+            width: 100% !important;
+            border: none !important;
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.4) !important;
+        }
+
+        /* --- REVEAL CLASSES --- */
+        .hidden { opacity: 0; visibility: hidden; }
+        .show-content { opacity: 1; transform: scale(1); }
     </style>
 </head>
 <body>
 
-    <div class="bg-animation">
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-    </div>
-    <div class="confetti-pop" id="confettiPop">
-        <div class="confetti" style="left: 10%; background: var(--confetti-1);"></div>
-        <div class="confetti" style="left: 30%; background: var(--confetti-2);"></div>
-        <div class="confetti" style="left: 60%; background: var(--confetti-3);"></div>
-        <div class="confetti" style="left: 80%; background: var(--confetti-2);"></div>
+    <div id="intro-overlay" onclick="revealBirthday()">
+        <div class="floating-gift">🎁</div>
+        <p class="tap-text">TAP TO OPEN YASH'S SURPRISE</p>
     </div>
 
-    <div class="profile-card">
-        <div class="gift-box-container" onclick="popConfetti()">
-            <span class="gift-box-initials">🎁</span>
+    <div class="main-container" id="main-content">
+        <div class="profile-card">
+            <h1 style="font-size: 2.5rem; color: var(--gold); margin-bottom: 10px;">Happy Birthday to Me! 🎉</h1>
+            <p style="font-style: italic; color: #bbb; margin-bottom: 20px;">
+                "Life is better with friends like you. Thanks for making my day extra special!"
+            </p>
+            
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; margin-bottom: 20px;">
+                <p style="font-size: 0.9rem;">Birthday Pot Goal</p>
+                <div style="width: 100%; height: 8px; background: #333; border-radius: 10px; margin: 10px 0;">
+                    <div style="width: 55%; height: 100%; background: var(--gold); border-radius: 10px;"></div>
+                </div>
+                <p style="color: var(--gold); font-size: 0.8rem; font-weight: bold;">55% Completed!</p>
+            </div>
+
+            <div class="payment-box">
+                <form>
+                    <script src="https://checkout.razorpay.com/v1/payment-button.js" 
+                            data-payment_button_id="pl_SWZ1cBPAy7fj28" async> 
+                    </script> 
+                </form>
+            </div>
+            <p style="font-size: 0.6rem; color: #666; margin-top: 15px;">SECURE PAYMENT VIA RAZORPAY</p>
         </div>
-
-        <h1 style="color: var(--primary-accent);">Yash's Birthday!</h1>
-        <span class="id-badge">Celebrating Another Great Year</span>
-
-        <div class="contact-box">
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px;">A Personal Note from Yash:</p>
-            <p style="font-weight: 500; font-style: italic;">"Thanks for being a special part of my life. Your love is my greatest gift! If you wish to send a little extra joy, your gift to my birthday pot means the world to me. ❤️"</p>
-        </div>
-
-        <div class="goal-bar-container">
-            <div class="goal-bar-fill"></div>
-            <span class="goal-text">Birthday Goal Progress (40%)</span>
-        </div>
-
-        <form>
-            <script src="https://checkout.razorpay.com/v1/payment-button.js" 
-                    data-payment_button_id="pl_SWZ1cBPAy7fj28" async> 
-            </script> 
-        </form>
-        
-        <p class="upi-text">Accepts UPI, G-Pay, PhonePe, Cards</p>
     </div>
 
     <script>
-        function popConfetti() {
-            var confettiPop = document.getElementById('confettiPop');
-            confettiPop.classList.add('active');
-            setTimeout(function() {
-                confettiPop.classList.remove('active');
-            }, 1500);
+        function revealBirthday() {
+            // Hide intro
+            document.getElementById('intro-overlay').classList.add('hidden');
+            
+            // Show main content
+            setTimeout(() => {
+                document.getElementById('main-content').classList.add('show-content');
+                createBalloons();
+            }, 500);
         }
 
-        // Trigger confetti when they first click the page
-        document.body.addEventListener('click', function() {
-            popConfetti();
-        }, { once: true });
-    </click>
+        function createBalloons() {
+            for(let i=0; i<15; i++) {
+                let b = document.createElement('div');
+                b.className = 'balloon';
+                b.style.left = Math.random() * 100 + '%';
+                b.style.backgroundColor = i % 2 == 0 ? '#f1c40f' : '#e74c3c';
+                b.style.animation = `floatUp ${Math.random() * 3 + 3}s linear forwards`;
+                document.body.appendChild(b);
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes floatUp {
+            to { transform: translateY(-120vh) rotate(20deg); }
+        }
+    </style>
 
 </body>
 </html>
