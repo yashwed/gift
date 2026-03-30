@@ -3,174 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Surprise from Yash! 🎂</title>
-    
+    <title>Yash's Birthday Adventure! 🎂</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --gold: #f1c40f;
-            --red: #e74c3c;
-            --dark-bg: #0a0a0a;
-        }
+        body, html { height: 100%; background: #000; overflow: hidden; font-family: 'Poppins', sans-serif; color: white; }
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--dark-bg);
-            color: white;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* --- INTRO OVERLAY --- */
-        #intro-overlay {
+        /* --- BACKGROUND --- */
+        #bg-canvas {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease, visibility 1s;
+            z-index: -1;
+        }
+
+        /* --- GIFT BOX STAGE --- */
+        #gift-stage {
+            height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            transition: all 0.8s ease;
         }
 
         .floating-gift {
-            font-size: 80px;
-            animation: pulse 2s infinite ease-in-out;
+            font-size: 100px;
             cursor: pointer;
-            filter: drop-shadow(0 0 20px var(--gold));
+            filter: drop-shadow(0 0 30px #f1c40f);
+            animation: bounce 2s infinite ease-in-out;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
 
         .tap-text {
             margin-top: 20px;
-            color: var(--gold);
-            letter-spacing: 3px;
+            color: #f1c40f;
             font-weight: bold;
+            letter-spacing: 2px;
             animation: blink 1.5s infinite;
         }
-
         @keyframes blink { 50% { opacity: 0.3; } }
 
-        /* --- MAIN CONTENT (Hidden at start) --- */
-        .main-container {
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 1s ease;
-            text-align: center;
-            z-index: 10;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        .profile-card {
-            background: rgba(20, 20, 20, 0.95);
-            padding: 30px;
+        /* --- PAYMENT CARD (Hidden at start) --- */
+        #payment-card {
+            display: none;
+            width: 90%; max-width: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(241, 196, 15, 0.3);
             border-radius: 40px;
-            border: 1px solid var(--gold);
-            box-shadow: 0 0 50px rgba(0,0,0,1);
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: slideUp 0.8s ease forwards;
         }
 
-        /* --- BALLOONS --- */
-        .balloon {
-            position: absolute;
-            bottom: -100px;
-            width: 40px; height: 50px;
-            background: var(--gold);
-            border-radius: 50%;
-            opacity: 0.6;
-            z-index: 1;
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- RAZORPAY BUTTON --- */
-        .payment-box { margin-top: 25px; }
+        /* --- STICKER STYLING --- */
+        .sticker-container {
+            width: 150px;
+            margin: 0 auto 15px auto;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
         .razorpay-payment-button {
-            background: var(--red) !important;
-            color: white !important;
-            border-radius: 50px !important;
-            font-weight: 800 !important;
-            padding: 15px !important;
+            background: linear-gradient(45deg, #f1c40f, #d4af37) !important;
+            color: #000 !important;
+            border-radius: 20px !important;
+            font-weight: 900 !important;
+            height: 55px !important;
             width: 100% !important;
             border: none !important;
-            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.4) !important;
+            box-shadow: 0 10px 20px rgba(241, 196, 15, 0.2) !important;
         }
-
-        /* --- REVEAL CLASSES --- */
-        .hidden { opacity: 0; visibility: hidden; }
-        .show-content { opacity: 1; transform: scale(1); }
     </style>
 </head>
 <body>
 
-    <div id="intro-overlay" onclick="revealBirthday()">
-        <div class="floating-gift">🎁</div>
-        <p class="tap-text">TAP TO OPEN YASH'S SURPRISE</p>
-    </div>
+    <div id="bg-canvas"></div>
 
-    <div class="main-container" id="main-content">
-        <div class="profile-card">
-            <h1 style="font-size: 2.5rem; color: var(--gold); margin-bottom: 10px;">Happy Birthday to Me! 🎉</h1>
-            <p style="font-style: italic; color: #bbb; margin-bottom: 20px;">
-                "Life is better with friends like you. Thanks for making my day extra special!"
-            </p>
-            
-            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; margin-bottom: 20px;">
-                <p style="font-size: 0.9rem;">Birthday Pot Goal</p>
-                <div style="width: 100%; height: 8px; background: #333; border-radius: 10px; margin: 10px 0;">
-                    <div style="width: 55%; height: 100%; background: var(--gold); border-radius: 10px;"></div>
+    <div id="gift-stage">
+        <div class="floating-gift" onclick="revealCard()">🎁</div>
+        <p class="tap-text">TAP TO OPEN YASH'S GIFT</p>
+
+        <div id="payment-card">
+            <div class="sticker-container">
+                <div class="tenor-gif-embed" data-postid="16010913896260583856" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+                    <a href="https://tenor.com/view/thank-you-everybody-vaani-kapoor-pinkvilla-i-appreciate-it-guys-gif-16010913896260583856">Thank You Sticker</a>
                 </div>
-                <p style="color: var(--gold); font-size: 0.8rem; font-weight: bold;">55% Completed!</p>
+                <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
             </div>
 
-            <div class="payment-box">
-                <form>
-                    <script src="https://checkout.razorpay.com/v1/payment-button.js" 
-                            data-payment_button_id="pl_SWZ1cBPAy7fj28" async> 
-                    </script> 
-                </form>
-            </div>
-            <p style="font-size: 0.6rem; color: #666; margin-top: 15px;">SECURE PAYMENT VIA RAZORPAY</p>
+            <h2 style="color: #f1c40f; margin-bottom: 10px;">For the Birthday Boy!</h2>
+            <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 25px; line-height: 1.4;">
+                "Your support and love mean the world to me. Thanks for being part of my journey!"
+            </p>
+
+            <form>
+                <script src="https://checkout.razorpay.com/v1/payment-button.js" 
+                        data-payment_button_id="pl_SWZ1cBPAy7fj28" async> 
+                </script> 
+            </form>
         </div>
     </div>
 
     <script>
-        function revealBirthday() {
-            // Hide intro
-            document.getElementById('intro-overlay').classList.add('hidden');
-            
-            // Show main content
-            setTimeout(() => {
-                document.getElementById('main-content').classList.add('show-content');
-                createBalloons();
-            }, 500);
-        }
-
-        function createBalloons() {
-            for(let i=0; i<15; i++) {
-                let b = document.createElement('div');
-                b.className = 'balloon';
-                b.style.left = Math.random() * 100 + '%';
-                b.style.backgroundColor = i % 2 == 0 ? '#f1c40f' : '#e74c3c';
-                b.style.animation = `floatUp ${Math.random() * 3 + 3}s linear forwards`;
-                document.body.appendChild(b);
-            }
+        function revealCard() {
+            document.querySelector('.floating-gift').style.display = 'none';
+            document.querySelector('.tap-text').style.display = 'none';
+            document.getElementById('payment-card').style.display = 'block';
         }
     </script>
-
-    <style>
-        @keyframes floatUp {
-            to { transform: translateY(-120vh) rotate(20deg); }
-        }
-    </style>
 
 </body>
 </html>
